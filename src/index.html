@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VRM Video Chat</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div id="controls">
+        <p>ID: <span id="my-id"></span></p>
+        <div>
+            Channel name: <input id="channel-name" type="text"><br>
+            rvmファイル<input type="file" id="rvmFileInput"><br>
+            <button id="join">Join</button>
+        </div>
+    </div>
+    
+    <div id="display">
+        <!-- canvas要素 -->
+        <canvas id="avatar-canvas"></canvas>
+        <h3>あなたの画面</h3>
+        <video id="local-video" width="400px" muted playsinline></video>
+        <div id="button-area"></div>
+        <div id="remote-media-area"></div>
+    </div>
+
+    <script type="module" src="./module/three.ts"></script>
+    <script type="module" src="./main.ts"></script>
+</body>
+</html>
+
+

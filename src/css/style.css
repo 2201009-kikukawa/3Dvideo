@@ -1,0 +1,8 @@
+body{
+    background-color:aqua
+}
+
+#avatar-canvas{
+    width: 500px;
+    height: 500px;
+}
