@@ -5,4 +5,13 @@ body{
 #avatar-canvas{
     width: 500px;
     height: 500px;
+    display: none;
+}
+
+h1{
+    text-align: center;
+}
+
+.remote-media-area{
+    width: 400px;
 }
