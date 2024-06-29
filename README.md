@@ -8,5 +8,5 @@ npm install three@0.164.1 @pixiv/three-vrm
 npm install @skyway-sdk/room
 ```
 
-その後#Dvideo直下にenv.tsファイルを作成し以下のurlで作成したアプリケーションIDとシークレットキーを入力してもらったら環境構築はOKです！
+その後3Dvideo直下にenv.tsファイルを作成し以下のurlで作成したアプリケーションIDとシークレットキーを入力してもらったら環境構築はOKです！
 https://console.skyway.ntt.com/signup/
