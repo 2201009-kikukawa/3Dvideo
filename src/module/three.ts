@@ -3,6 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { VRMLoaderPlugin } from '@pixiv/three-vrm';
 import { faceTransferAPI } from './jeeliz';
 
+// Scene setup
 const scene = new THREE.Scene();
 const canvas = document.getElementById('avatar-canvas') as HTMLCanvasElement;
 const renderer = new THREE.WebGLRenderer({ canvas });
@@ -11,7 +12,6 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = 5;
 
-scene.background = new THREE.Color(0x00ff00);
 const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 scene.add(ambientLight);
 
@@ -28,8 +28,28 @@ let head: THREE.Object3D;
 let neck: THREE.Object3D;
 let spine: THREE.Object3D;
 let modelLoaded = false;
-let currentVRM; // 現在のVRMモデルを保持する変数
+let currentVRM: any; // 現在のVRMモデルを保持する変数
 
+// Load PNG and set as background
+const backgroundInput = document.getElementById('backgroundFileInput') as HTMLInputElement;
+backgroundInput.addEventListener('change', async (event) => {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+    const url = URL.createObjectURL(file);
+
+    setPNGBackground(url);
+});
+
+function setPNGBackground(url: string) {
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load(url, (texture) => {
+        scene.background = texture;
+    });
+}
+
+// Load VRM model
 const fileInput = document.getElementById('rvmFileInput') as HTMLInputElement;
 fileInput.addEventListener('change', async (event) => {
     const input = event.target as HTMLInputElement;
@@ -47,12 +67,12 @@ function loadVRMModel(url: string) {
         (gltf) => {
             const vrm = gltf.userData.vrm;
             vrm.scene.rotation.y = Math.PI;
-            
+
             vrm.humanoid.getRawBoneNode('leftUpperArm').rotation.z = Math.PI / 3;
             vrm.humanoid.getRawBoneNode('rightUpperArm').rotation.z = -Math.PI / 3;
             vrm.humanoid.getRawBoneNode('leftLowerArm').rotation.x = 0;
             vrm.humanoid.getRawBoneNode('rightLowerArm').rotation.x = 0;
-            
+
             scene.add(vrm.scene);
 
             modelLoaded = true;
@@ -168,20 +188,17 @@ function updateFaceRotation(faceRotation: Array<number>) {
     const neckW = 0.2;
     const spineW = 0.1;
 
-    // 頭
     head.rotation.x = faceRotation[0] * headW * -1;
     head.rotation.y = faceRotation[1] * headW;
     head.rotation.z = faceRotation[2] * headW * -1;
 
-    // 首
     neck.rotation.x = faceRotation[0] * neckW * -1;
     neck.rotation.y = faceRotation[1] * neckW;
     neck.rotation.z = faceRotation[2] * neckW * -1;
 
-    // 脊椎
     spine.rotation.x = faceRotation[0] * spineW * -1;
     spine.rotation.y = faceRotation[1] * spineW;
     spine.rotation.z = faceRotation[2] * spineW * -1;
 }
 
-export { canvas , update};
+export { canvas, update };
